@@ -1,7 +1,9 @@
+import * as actions from './actionTypes';
+
 let lastId = 0;
 
 export default function reducer(state = [], action) {
-  if (action.type === 'bugAdded')
+  if (action.type === actions.BUG_ADDED)
     return [
       ...state,
       {
@@ -10,8 +12,11 @@ export default function reducer(state = [], action) {
         resolved: false,
       },
     ];
-  else if (action.type === 'bugRemoved')
+  else if (action.type === actions.BUG_REMOVE)
     return state.filter((bug) => bug.id !== action.payload.id);
-
+  else if (action.type === actions.BUG_RESOLVE)
+    return state.map((bug) =>
+      bug.id === action.payload.id ? { ...bug, resolved: true } : bug
+    );
   return state;
 }
